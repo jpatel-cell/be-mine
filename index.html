@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>For Bubba ❤️</title>
+    <title>My Dearest Bubba, A Special Question For You ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
         body {
@@ -14,85 +15,196 @@
             align-items: center;
             justify-content: center;
             min-height: 100vh;
-            background-color: #fff0f3;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to top, #ffe6f2, #fff0f5); /* Soft pink gradient */
+            font-family: 'Playfair Display', serif; /* Classy main font */
+            color: #4a0033; /* Darker, richer text color */
             overflow-x: hidden;
             text-align: center;
+            position: relative;
+            isolation: isolate; /* For z-index of floating elements */
         }
-        #main-container { max-width: 600px; padding: 20px; }
-        .photo-gallery {
-            display: flex;
-            gap: 10px;
-            overflow-x: auto;
-            padding: 20px;
+
+        /* Floating Hearts/Petals Animation */
+        .heart {
+            position: absolute;
+            background-color: #ff69b4; /* Hot pink */
+            width: 15px;
+            height: 15px;
+            transform: rotate(-45deg);
+            animation: float-up linear infinite;
+            z-index: -1; /* Behind content */
+            opacity: 0;
+        }
+        .heart::before, .heart::after {
+            content: '';
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            background-color: #ff69b4;
+            border-radius: 50%;
+        }
+        .heart::before { top: -7.5px; left: 0; }
+        .heart::after { left: 7.5px; top: 0; }
+
+        @keyframes float-up {
+            0% { transform: translateY(100vh) rotate(-45deg); opacity: 0; }
+            10% { opacity: 0.8; }
+            100% { transform: translateY(-10vh) rotate(-45deg); opacity: 0; }
+        }
+
+        #main-container {
+            max-width: 800px; /* Increased width for more photos */
+            padding: 30px;
+            background-color: rgba(255, 255, 255, 0.9); /* Slightly transparent white background */
+            border-radius: 20px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 10;
+        }
+
+        h1, h2 {
+            font-family: 'Great Vibes', cursive; /* Elegant script font for headings */
+            color: #8a004a; /* Deep rose color */
+            margin-bottom: 20px;
+        }
+        h1 { font-size: 3.8rem; line-height: 1.1; }
+        h2 { font-size: 2.2rem; margin-top: 30px; }
+        p { font-size: 1.1rem; line-height: 1.6; margin-bottom: 15px; color: #6a004a; }
+
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); /* Responsive grid */
+            gap: 15px;
+            margin: 30px 0;
+        }
+
+        .photo-grid img {
             width: 100%;
-            scrollbar-width: none;
-        }
-        .photo-gallery img {
-            width: 250px;
-            height: 350px;
+            height: 250px; /* Fixed height for consistency */
             object-fit: cover;
-            border-radius: 15px;
-            border: 5px solid white;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            border-radius: 12px;
+            border: 4px solid white;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease-in-out;
         }
-        h1 { color: #c9184a; font-size: 2.5rem; margin-bottom: 30px; }
-        .btn-container { position: relative; height: 100px; width: 100%; margin-top: 20px; }
+        .photo-grid img:hover {
+            transform: scale(1.03); /* Slight zoom on hover */
+        }
+
+        .btn-container {
+            position: relative;
+            height: 120px; /* More space for the buttons */
+            width: 100%;
+            margin-top: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
         button {
-            padding: 15px 40px;
-            font-size: 1.2rem;
+            padding: 18px 45px;
+            font-size: 1.3rem;
             font-weight: bold;
             border-radius: 50px;
             border: none;
             cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            font-family: 'Playfair Display', serif;
         }
-        #yes-btn { background-color: #ff4d6d; color: white; box-shadow: 0 4px 15px rgba(255, 77, 109, 0.4); }
-        #no-btn { background-color: #808080; color: white; position: absolute; left: 55%; }
-        #success-message { display: none; animation: fadeIn 1s; }
-        #success-message img { width: 300px; border-radius: 20px; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        #yes-btn {
+            background-color: #e03a74; /* A vibrant pink */
+            color: white;
+            margin-right: 20px;
+            box-shadow: 0 6px 20px rgba(224, 58, 116, 0.4);
+        }
+        #yes-btn:hover {
+            background-color: #c9184a;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(224, 58, 116, 0.6);
+        }
+
+        #no-btn {
+            background-color: #a0a0a0; /* Softer grey */
+            color: white;
+            position: absolute;
+            left: 50%; /* Start in the center, near YES */
+            transform: translateX(60px); /* Offset from center */
+            white-space: nowrap;
+            padding: 15px 35px; /* Slightly smaller */
+            font-size: 1.1rem;
+        }
+
+        #success-message {
+            display: none;
+            animation: fadeIn 1.5s ease-out;
+            margin-top: 30px;
+        }
+
+        #success-message img {
+            width: 350px;
+            max-width: 90%;
+            border-radius: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin-bottom: 25px;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            h1 { font-size: 2.8rem; }
+            h2 { font-size: 1.8rem; }
+            p { font-size: 1rem; }
+            .photo-grid {
+                grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+                gap: 10px;
+            }
+            .photo-grid img { height: 200px; }
+            button { padding: 12px 30px; font-size: 1.1rem; }
+            #no-btn { transform: translateX(50px); }
+        }
+        @media (max-width: 480px) {
+            h1 { font-size: 2.2rem; }
+            h2 { font-size: 1.5rem; }
+            p { font-size: 0.95rem; }
+            .photo-grid { grid-template-columns: 1fr 1fr; } /* 2 columns on small screens */
+            .photo-grid img { height: 180px; }
+            #no-btn { transform: translateX(40px); }
+        }
     </style>
 </head>
 <body>
+
+    <div class="heart" style="left: 10%; animation-delay: 0s; animation-duration: 8s;"></div>
+    <div class="heart" style="left: 30%; animation-delay: 2s; animation-duration: 10s;"></div>
+    <div class="heart" style="left: 50%; animation-delay: 4s; animation-duration: 7s;"></div>
+    <div class="heart" style="left: 70%; animation-delay: 1s; animation-duration: 9s;"></div>
+    <div class="heart" style="left: 90%; animation-delay: 3s; animation-duration: 11s;"></div>
+
     <div id="main-container">
         <div id="ask-section">
-            <h1>Will you be my Valentine, Bubba?</h1>
-            <div class="photo-gallery">
-                <img src="photo1.jpg" alt="Us">
-                <img src="photo2.jpg" alt="Us">
-                <img src="photo3.jpg" alt="Us">
-                <img src="photo4.jpg" alt="Us">
-                <img src="photo5.jpg" alt="Us">
+            <h1>My Dearest Bubba,</h1>
+            <p>Every moment with you is a cherished memory, a beautiful story unfolding.</p>
+            <p>You make every day feel like Valentine's Day.</p>
+
+            <h2>Here's a little journey through "us"...</h2>
+            
+            <div class="photo-grid">
+                <img src="photo1.jpg" alt="A special memory of us">
+                <img src="photo2.jpg" alt="Another sweet moment">
+                <img src="photo3.jpg" alt="Laughing together">
+                <img src="photo4.jpg" alt="Our adventures">
+                <img src="photo5.jpg" alt="Always together">
             </div>
+
+            <p>With you, life is truly extraordinary. So, my love, I have a very important question:</p>
+            <h2>Will you be my Valentine?</h2>
+            
             <div class="btn-container">
-                <button id="yes-btn" onclick="celebrate()">YES!</button>
-                <button id="no-btn" onmouseover="moveNoButton()" onclick="moveNoButton()">No</button>
+                <button id="yes-btn" onclick="celebrate()">YES, my love!</button>
+                <button id="no-btn" onmouseover="moveNoButton()" onclick="moveNoButton()">Oh no, I can't...</button>
             </div>
         </div>
+
         <div id="success-message">
-            <img src="https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif" alt="Confetti">
-            <h1 style="margin-top: 20px;">Yay thank you bubba i love you! ❤️</h1>
-        </div>
-    </div>
-    <script>
-        function moveNoButton() {
-            const btn = document.getElementById('no-btn');
-            const x = Math.random() * (window.innerWidth - btn.offsetWidth - 100);
-            const y = Math.random() * (window.innerHeight - btn.offsetHeight - 100);
-            btn.style.position = 'fixed';
-            btn.style.left = x + 'px';
-            btn.style.top = y + 'px';
-        }
-        function celebrate() {
-            document.getElementById('ask-section').style.display = 'none';
-            document.getElementById('success-message').style.display = 'block';
-            var end = Date.now() + (5 * 1000);
-            (function frame() {
-              confetti({ particleCount: 3, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#ff4d6d', '#ffb3c1', '#c9184a'] });
-              confetti({ particleCount: 3, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#ff4d6d', '#ffb3c1', '#c9184a'] });
-              if (Date.now() < end) { requestAnimationFrame(frame); }
-            }());
-        }
-    </script>
-</body>
-</html>
+            <img src="
